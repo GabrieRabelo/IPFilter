@@ -3,25 +3,22 @@ package vKotlin
 import java.io.File
 
 fun main() {
-    val initialTime = System.nanoTime()
-//    val data = mutableListOf<Interval>()
+    val initialTime = System.currentTimeMillis()
     val filter = Filter(mutableListOf())
 
-    File("src/vKotlin/resource/casoenunciado.txt")
+    File("src/vKotlin/resource/cohen04.txt")
         .forEachLine {
             val lineValues = it.split("-".toRegex())
             val interval = Interval(lineValues[0].toInt(), lineValues[1].toInt())
-//            data.add(interval)
+
             filter.add(interval)
         }
 
-//    data.sort()
-//    println(data)
+    println("Tamanho da lista " + filter.getSize())
 
-    print(filter)
-    val endTime = System.nanoTime()
+    val endTime = System.currentTimeMillis()
     val executionTime = endTime - initialTime
-    println("\n\nTempo de execução: $executionTime")
+    println("\n\nTempo de execução: $executionTime ms")
 
 
 }

@@ -6,8 +6,13 @@ class Filter(private var data: MutableList<Interval>) {
             data.add(interval)
             return
         }
-            checkValues(interval)
+        checkValues(interval)
+
+        val tamanho = data.size
+        for(i in 1..tamanho) {
+            checkValues(data.removeFirst())
         }
+    }
 
     private fun checkValues(inputInterval: Interval) {
         for(i : Interval in data) {
@@ -23,18 +28,18 @@ class Filter(private var data: MutableList<Interval>) {
                 return
             }
 
+            if(inputInterval.firstValue <= i.firstValue && inputInterval.lastValue >= i.lastValue){
+                i.mergeFirst(inputInterval)
+                i.mergeLast(inputInterval)
+                return
+            }
         }
-
         data.add(inputInterval)
-
     }
 
-    fun organize() {
-        for(item: Interval in data) {
-
-        }
+    fun getSize():Int {
+        return data.size
     }
-
 
     override fun toString(): String {
         return data.toString();
