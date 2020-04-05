@@ -6,13 +6,13 @@ fun main() {
     val initialTime = System.currentTimeMillis()
     val filter = Filter(mutableListOf())
 
-    File("src/vKotlin/resource/cohen04.txt")
+    File("src/vKotlin/resource/cohen01.txt")
         .forEachLine {
             val lineValues = it.split("-".toRegex())
             val interval = Interval(lineValues[0].toInt(), lineValues[1].toInt())
-
             filter.add(interval)
         }
+    filter.organize()
 
     println("Tamanho da lista " + filter.getSize())
 

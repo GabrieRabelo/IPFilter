@@ -7,7 +7,9 @@ class Filter(private var data: MutableList<Interval>) {
             return
         }
         checkValues(interval)
+    }
 
+    fun organize() {
         val tamanho = data.size
         for(i in 1..tamanho) {
             checkValues(data.removeFirst())
