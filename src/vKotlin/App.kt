@@ -1,52 +1,49 @@
 package vKotlin
 
 import java.io.File
-val data = mutableListOf<Interval>()
+import kotlin.math.max
+
+class Interval (var firstValue: Int, var lastValue: Int): Comparable<Interval> {
+    override fun compareTo(other: Interval): Int {
+        return if (this.firstValue != other.firstValue) {
+            this.firstValue - other.firstValue
+        } else 0
+    }
+
+    fun merge(interval: Interval) {
+        this.lastValue = max(this.lastValue, interval.lastValue)
+    }
+}
 
 fun main() {
     val initialTime = System.currentTimeMillis()
-    var linesRead = 0
+    val data = mutableListOf<Interval>()
+    val finalData = mutableListOf<Interval>()
 
-    File("src/vKotlin/resource/cohen11.txt")
+    File("src/vKotlin/resource/cohen12.txt")  //leitura do arquivo para adicionar ao data
         .forEachLine {
             val lineValues = it.split("-".toRegex())
             val interval = Interval(lineValues[0].toInt(), lineValues[1].toInt())
             data.add(interval)
-            linesRead++
         }
 
     data.sort()
 
-    for(i in 1..data.size) {
-        merger(data.removeAt(0))
+    var firstInterval = data[0]
+    finalData.add(firstInterval) //adiciona o primeiro intervalo (menor first value)
+
+    for (interval in data) {
+        if (firstInterval.lastValue >= interval.firstValue) { //compara se o lastValue do primeiro intervalo é maior que o first value do próximo
+            firstInterval.merge(interval) //faz o merge do intervalo
+        } else {
+            firstInterval = interval //se não o primeiro intervalo recebe o valor do próximo
+            finalData.add(firstInterval) //cria um novo intervalo no finalData
+        }
     }
 
-    println("Tamanho da lista " + data.size)
-    println("Total de linhas lidas $linesRead")
+    println("Tamanho da lista inicial " + data.size)
+    println("Tamanho da lista final " + finalData.size)
     val endTime = System.currentTimeMillis()
     val executionTime = endTime - initialTime
-    println("\n\nTempo de execução: $executionTime ms")
-}
-
-fun merger(interval: Interval) {
-    for(i : Interval in data) {
-        if(interval.firstValue <= i.firstValue && interval.lastValue >= i.firstValue
-            && interval.lastValue <= i.lastValue) {
-            i.mergeFirst(interval)
-            return
-        }
-
-        if(interval.firstValue <= i.lastValue && interval.firstValue >= i.firstValue
-            && interval.lastValue >= i.lastValue) {
-            i.mergeLast(interval)
-            return
-        }
-
-        if(interval.firstValue <= i.firstValue && interval.lastValue >= i.lastValue){
-            i.mergeFirst(interval)
-            i.mergeLast(interval)
-            return
-        }
-    }
-    data.add(interval)
+    println("Tempo de execução: $executionTime ms")
 }
