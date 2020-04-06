@@ -29,15 +29,17 @@ fun main() {
 
     data.sort()
 
-    var firstInterval = data[0]
-    finalData.add(firstInterval) //adiciona o primeiro intervalo (menor first value)
+    var currentInterval = data[0]
+    finalData.add(currentInterval) //adiciona o primeiro intervalo (menor first value)
 
-    for (interval in data) {
-        if (firstInterval.lastValue >= interval.firstValue) { //compara se o lastValue do primeiro intervalo é maior que o first value do próximo
-            firstInterval.merge(interval) //faz o merge do intervalo
+    for (nextInterval in data) {
+        if (currentInterval.lastValue >= nextInterval.firstValue) {
+            //compara se o lastValue do primeiro intervalo é maior ou igual
+            // que o first value do próximo
+            currentInterval.merge(nextInterval) //faz o merge do intervalo
         } else {
-            firstInterval = interval //se não o primeiro intervalo recebe o valor do próximo
-            finalData.add(firstInterval) //cria um novo intervalo no finalData
+            currentInterval = nextInterval //currentInterval recebe a referencia do próximo intervalo
+            finalData.add(currentInterval) //adiciona o currentInterval no finalData
         }
     }
 
