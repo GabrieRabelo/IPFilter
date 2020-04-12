@@ -13,6 +13,10 @@ class Interval (var firstValue: Int, var lastValue: Int): Comparable<Interval> {
     fun merge(interval: Interval) {
         this.lastValue = max(this.lastValue, interval.lastValue)
     }
+
+    override fun toString(): String {
+        return "[$firstValue, $lastValue]"
+    }
 }
 
 fun main() {
@@ -20,7 +24,7 @@ fun main() {
     val data = mutableListOf<Interval>()
     val finalData = mutableListOf<Interval>()
 
-    File("src/vKotlin/resource/cohen12.txt")
+    File("src/vKotlin/resource/cohen01.txt")
         .forEachLine {
             val lineValues = it.split("-".toRegex())
             val interval = Interval(lineValues[0].toInt(), lineValues[1].toInt())
@@ -40,6 +44,8 @@ fun main() {
             finalData.add(currentInterval)
         }
     }
+
+    println(finalData)
 
     println("Tamanho da lista final " + finalData.size)
     val endTime = System.currentTimeMillis()
